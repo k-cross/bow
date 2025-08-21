@@ -13,15 +13,7 @@ struct BowArgs {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let app_args = BowArgs::parse();
-    let mut workers: Vec<Worker> = (0..app_args.workers)
-        .map(|_| Worker {
-            id: Uuid::new_v4(),
-            task_id: Uuid::new_v4(),
-            retry_count: 0,
-            status: WorkerStatus::WAITING,
-            job_obtained_at: None,
-        })
-        .collect();
+    let mut workers: Vec<Worker> = (0..app_args.workers).map(|_| Worker::new()).collect();
 
     println!("Hello, workers: {:#?}", workers);
     Ok(())
